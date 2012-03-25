@@ -5,13 +5,14 @@ you can play Hangman on Twitter.
 
 Download the two files listed above and download the Abraham Twitter Library.
 You also need to register your Twitter Hangman application. This can be done
-at dev.twitter.com. After you registered your appliaction at Twitter and 
+at dev.twitter.com. WARNING: THIS SCRIPT REQUIRES READ, WRITE AND DIRECT 
+MESSAGES ACCESS!  After you registered your appliaction at Twitter and 
 downloaded the library files, you have to edit beheer_dms.php and
 beheer_mentions.php. At the top of these files, there are four empty variables.
 Set the variables to the data from your Twitter application and edit line
 19 to set the MySQL connection.
 
-After you did this, you have to create a table. To do this, execute the following
+After you did this, you have to create two tables. To do this, execute the following
 SQL code: 
 
 CREATE TABLE IF NOT EXISTS `tmp_beheer` (
@@ -19,6 +20,102 @@ CREATE TABLE IF NOT EXISTS `tmp_beheer` (
   `type` int(11) NOT NULL,
   `date` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin;
+
+CREATE TABLE IF NOT EXISTS `potjesenwoorden` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `van` varchar(25) NOT NULL,
+  `tegen` varchar(25) NOT NULL,
+  `woord` varchar(15) NOT NULL,
+  `pogingen` int(11) NOT NULL,
+  `active` int(11) NOT NULL,
+  `time_started` varchar(15) NOT NULL,
+  `time_ended` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+After you created those tables, you'll have to create a cron job. I recommend
+to set the cron job to execute every minute beheer_mentions.php and beheer_dms.php.
 
 Congratulations! Your Hangman host is now ready to use!
+
+== HOW TO PLAY ==
+(a Dutch guide is located at http://ikspeelgalgje.blogspot.com/p/handleiding.html)
+
+After the installation, the Twitter account is ready to use as Hangman host. 
+Below you'll find the instructions on how to play Hangman with this script.
+
+=== START A GAME ===
+Log in to Twitter and send a mention to your Hangman host Twitter account. 
+The script will make your Hangman host to follow the sender of that tweet.
+If the sender follows back, you are able to send each other direct messages.
+That's required. To start a Hangman game, send a direct message to your 
+Hangman host with the following data:
+
+@opponent -elephant-
+
+Replace "opponent" with the Twitter username of your desired Hangman opponent
+and replace "elephant" with the word you'd like to play Hangman with. The
+word HAS TO BE between two -'s. Otherwise, the system will return an error
+message and the game cannot be played. Also, the word has to be less than
+15 characters. 
+
+If the direct message doesn't contain errors, the Hangman game will be started.
+You and your opponent will receive a mention, which contains the message that
+the game has been started, how many characters to word has and a unique id.
+
+=== GUESSING CHARACTERS ===
+After the game has been started, the opponent will be able to guess characters.
+To do this, you have to send your Hangman host a mention. Include the following:
+
+@HangmanHost a
+
+Replace "HangmanHost" with the Twitter username of your Hangman host and 
+replace "a" with the character you'd like to guess. WARNING: THE CHARACTER
+YOU'D LIKE TO GUESS HAS TO BE THE LAST CHARACTER OF THAT MENTION! After 
+a minute, you'll receive a mention back. If your guess was right, you'll 
+receive this mention:
+
+@opponent The character a is on the 1st place! Well done!
+
+If your guess wasn't right, you'll receive this mention:
+
+@opponent Too bad, the character a is not in the word. You have 9 attempt(s) left
+
+The opponent will have 10 attempts to guess the word. If you do a wrong guess
+after 9 failed attempts, you'll receive this mention:
+
+@opponent z is wrong. You have no attempts left. The word was "elephant". @starter is the winner!
+
+(@starter is the Twitter username from the game starter)
+
+The game has been ended and the starter is the winner. 
+
+=== GUESSING THE WHOLE WORD ===
+If the opponent thinks he has enough characters to guess the whole word, he 
+has to send the following mention:
+
+@HangmanHost This is the word -elephant-
+
+WARNING: YOU HAVE TO INCLUDE "This is the word" (with uppercase T) AND TO 
+PLACE THE WORD BETWEEN -'S. Otherwise, the script will not recognize the 
+guess. 
+
+If the word you guessed is the right word, you'll receive the following
+mention:
+
+@opponent Correct! You won with 5 attempts left! @starter lost the game!
+
+The opponent is the winner of this Hangman game and the game will be ended.
+
+
+If the word you guess wasn't the right word, you'll receive the following
+mention:
+
+@opponent Too bad, elephant wasn't the right word. You have 9 attempt(s) left.
+
+If you fail at guess the word, your attempts will be reduced with one, so
+be careful with guess words.
+
+
+
