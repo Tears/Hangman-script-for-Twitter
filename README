@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `tmp_beheer` (
   `type` int(11) NOT NULL,
   `date` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin ;
 
 CREATE TABLE IF NOT EXISTS `potjesenwoorden` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `potjesenwoorden` (
   `time_started` varchar(15) NOT NULL,
   `time_ended` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
 
 After you created those tables, you'll have to create a cron job. I recommend
 to set the cron job to execute every minute beheer_mentions.php and beheer_dms.php.
