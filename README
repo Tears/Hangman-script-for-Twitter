@@ -1,0 +1,24 @@
+Welcome to the project page of the Hangman for Twitter script. With this script,
+you can play Hangman on Twitter. 
+
+== INSTALLATION ==
+
+Download the two files listed above and download the Abraham Twitter Library.
+You also need to register your Twitter Hangman application. This can be done
+at dev.twitter.com. After you registered your appliaction at Twitter and 
+downloaded the library files, you have to edit beheer_dms.php and
+beheer_mentions.php. At the top of these files, there are four empty variables.
+Set the variables to the data from your Twitter application and edit line
+19 to set the MySQL connection.
+
+After you did this, you have to create a table. To do this, execute the following
+SQL code: 
+
+CREATE TABLE IF NOT EXISTS `tmp_beheer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL,
+  `date` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+
+Congratulations! Your Hangman host is now ready to use!
