@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `tmp_beheer` (
   `type` int(11) NOT NULL,
   `date` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
 
 CREATE TABLE IF NOT EXISTS `potjesenwoorden` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
